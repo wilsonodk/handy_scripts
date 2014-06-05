@@ -9,12 +9,12 @@ if [ $1 ]; then
 
     IFS=$OIFS
 
-    file=${parts[0]}
+    file=${parts[0]}.${parts[1]}
     ext=${parts[1]}
 
 else
     echo "Usage: new-script filename.extension"
-    echo "Creates a new file called filename"
+    echo "Creates a new file called 'filename.extension'"
     echo "Extension will determine what type of script it is:"
     echo ".sh - bash"
     echo ".rb - ruby"
@@ -31,6 +31,11 @@ elif [ "$ext" == "js" ]; then
 else
     echo "Unrecognized file extension ($ext)"
     exit -2
+fi
+
+if [ -f $file ]; then
+    echo "File '$file' exists. Pick another filename."
+    exit -3
 fi
 
 echo $text | cat >>$file
