@@ -1,0 +1,38 @@
+#!/bin/bash
+
+if [ $1 ]; then
+
+    OIFS=$IFS
+    IFS='.'
+
+    read -ra parts <<< "$1"
+
+    IFS=$OIFS
+
+    file=${parts[0]}
+    ext=${parts[1]}
+
+else
+    echo "Usage: new-script filename.extension"
+    echo "Creates a new file called filename"
+    echo "Extension will determine what type of script it is:"
+    echo ".sh - bash"
+    echo ".rb - ruby"
+    echo ".js - node"
+    exit -1
+fi
+
+if [ "$ext" == "sh" ]; then
+    text="#!/bin/bash"
+elif [ "$ext" == "rb" ]; then
+    text="#!/usr/bin/env ruby"
+elif [ "$ext" == "js" ]; then
+    text="#!/usr/bin/env node"
+else
+    echo "Unrecognized file extension ($ext)"
+    exit -2
+fi
+
+echo $text | cat >>$file
+chmod +x $file
+vim $file
