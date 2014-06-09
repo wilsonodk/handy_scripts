@@ -19,6 +19,7 @@ else
     echo ".sh - bash"
     echo ".rb - ruby"
     echo ".js - node"
+    echo "If extension is not recognized, an empty file will be created"
     exit -1
 fi
 
@@ -29,8 +30,7 @@ elif [ "$ext" == "rb" ]; then
 elif [ "$ext" == "js" ]; then
     text="#!/usr/bin/env node"
 else
-    echo "Unrecognized file extension ($ext)"
-    exit -2
+    text=""
 fi
 
 if [ -f $file ]; then
